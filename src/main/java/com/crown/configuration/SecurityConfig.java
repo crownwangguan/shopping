@@ -12,16 +12,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("guan").password("123456").roles("USER");
+        auth.inMemoryAuthentication().withUser("guan").password("123456").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("asdf").password("asdf").roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ROLE_USER')")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/products/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error")
-                .usernameParameter("user").passwordParameter("pass")
+                .usernameParameter("username").passwordParameter("password")
+                .defaultSuccessUrl("/products")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
