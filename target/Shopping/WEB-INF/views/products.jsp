@@ -40,9 +40,8 @@
                         </a>
                         <p>${product.description}</p>
                         <p>${product.unitPrice} USD</p>
+                        <p>${product.description}</p>
                         <p ng-controller="cartController">
-                            <a href="<spring:url value="/products/product?id=${product.productId }" />"  class="btn btn-primary" >
-                                <span class="glyphicon-info-sign glyphicon"> </span>  Details</a>
                             <a href="#" class="btn btn-warning btn-large" ng-click="addToCart('${product.productId}')">
                                 <span class="glyphicon-shopping-cart glyphicon"> </span> Order Now
                             </a>

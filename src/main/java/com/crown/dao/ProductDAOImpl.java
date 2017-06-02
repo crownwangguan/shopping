@@ -25,4 +25,10 @@ public class ProductDAOImpl implements ProductDAO {
         List<Product> productList = session.createQuery("from Product").list();
         return productList;
     }
+
+    @Override
+    public void addProduct(Product product) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(product);
+    }
 }
