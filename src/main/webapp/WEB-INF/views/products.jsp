@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
@@ -41,6 +42,11 @@
                         <p>${product.description}</p>
                         <p>${product.unitPrice} USD</p>
                         <p>${product.description}</p>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <a href="<c:url value="/products/delete?id=${product.productId}" />" class="btn btn-danger btn-large">
+                                <span class="glyphicon glyphicon-trash"> </span> Delete
+                            </a>
+                        </sec:authorize>
                         <p ng-controller="cartController">
                             <a href="#" class="btn btn-warning btn-large" ng-click="addToCart('${product.productId}')">
                                 <span class="glyphicon-shopping-cart glyphicon"> </span> Order Now

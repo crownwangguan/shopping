@@ -31,4 +31,11 @@ public class ProductDAOImpl implements ProductDAO {
         Session session = this.sessionFactory.getCurrentSession();
         session.persist(product);
     }
+
+    @Override
+    public void deleteProduct(int id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Product product = (Product)session.load(Product.class,id);
+        session.delete(product);
+    }
 }
