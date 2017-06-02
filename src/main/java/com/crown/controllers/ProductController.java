@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/products")
@@ -37,6 +38,12 @@ public class ProductController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct){
         productService.addProduct(newProduct);
+        return "redirect:/products";
+    }
+
+    @RequestMapping("/delete")
+    public String deleteProductById(@RequestParam("id") String productId){
+        productService.deleteProductById(Integer.parseInt(productId));
         return "redirect:/products";
     }
 }
