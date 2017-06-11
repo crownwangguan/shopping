@@ -1,9 +1,13 @@
 package com.crown.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -13,8 +17,11 @@ public class Product {
     @Column(name="productId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
+    @NotNull @NotEmpty
     private String name;
-	private BigDecimal unitPrice;
+    @DecimalMax("1000.0") @DecimalMin("0.0") @NotNull
+    private BigDecimal unitPrice;
+    @NotNull @NotEmpty
 	private String description;
 
     public Product() {
