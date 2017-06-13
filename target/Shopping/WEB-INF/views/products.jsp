@@ -39,19 +39,22 @@
                         <h3>${product.name}</h3>
                         <a href='<spring:url value="/products/product?id=${product.productId}" />' >
                         </a>
-                        <p>${product.description}</p>
-                        <p>${product.unitPrice} USD</p>
-                        <p>${product.description}</p>
+                        <p>Description: ${product.description}</p>
+                        <p>Unit Price: ${product.unitPrice} USD</p>
+                        <p>In Order: ${product.unitsInOrder}</p>
+                        <p>In Stock: ${product.unitsInStock}</p>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <a href="<c:url value="/products/delete?id=${product.productId}" />" class="btn btn-danger btn-large">
                                 <span class="glyphicon glyphicon-trash"> </span> Delete
                             </a>
                         </sec:authorize>
-                        <p ng-controller="cartController">
-                            <a href="#" class="btn btn-warning btn-large" ng-click="addToCart('${product.productId}')">
-                                <span class="glyphicon-shopping-cart glyphicon"> </span> Order Now
-                            </a>
-                        </p>
+                        <c:if test="${empty error}">
+                            <p>
+                                <a href="<c:url value="/products/order?id=${product.productId}&quality=1" />" class="btn btn-warning btn-large" >
+                                    <span class="glyphicon-shopping-cart glyphicon"> </span> Order Now
+                                </a>
+                            </p>
+                        </c:if>
                     </div>
                 </div>
             </div>

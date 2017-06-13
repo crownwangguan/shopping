@@ -1,12 +1,11 @@
 package com.crown.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -23,6 +22,10 @@ public class Product {
     private BigDecimal unitPrice;
     @NotNull @NotEmpty
 	private String description;
+    @NotNull @Min(0)
+    private int unitsInStock;
+    @NotNull @Min(0)
+    private int unitsInOrder;
 
     public Product() {
     }
@@ -45,7 +48,23 @@ public class Product {
 		return name;
 	}
 
-	public void setName(String name) {
+    public int getUnitsInStock() {
+        return unitsInStock;
+    }
+
+    public void setUnitsInStock(int unitsInStock) {
+        this.unitsInStock = unitsInStock;
+    }
+
+    public int getUnitsInOrder() {
+        return unitsInOrder;
+    }
+
+    public void setUnitsInOrder(int unitsInOrder) {
+        this.unitsInOrder = unitsInOrder;
+    }
+
+    public void setName(String name) {
 		this.name = name;
 	}
 
@@ -71,7 +90,9 @@ public class Product {
                 "productId=" + productId +
                 ", name='" + name + '\'' +
                 ", unitPrice=" + unitPrice +
-                ", description='" + description +
+                ", description='" + description + '\'' +
+                ", unitsInStock=" + unitsInStock +
+                ", unitsInOrder=" + unitsInOrder +
                 '}';
     }
 
