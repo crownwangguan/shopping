@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
     <title>Shopping</title>
@@ -15,5 +16,8 @@
 			</div>
 		</div>
 	</section>
+	<a href="<spring:url value="/products" />" class="btn btn-success">
+		<span class="glyphicon-circle-arrow-right glyphicon"></span> Let's Shop Now!
+	</a>
 </body>
 </html>

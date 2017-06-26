@@ -25,8 +25,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addProduct(Product product) {
+    public Product addProduct(Product product) {
+        List<Product> products = productDAO.getAllProducts();
+        for(Product iterProduct : products) {
+            if(iterProduct.getName().equals(product.getName())) {
+                return iterProduct;
+            }
+        }
         productDAO.addProduct(product);
+        return product;
     }
 
     @Override

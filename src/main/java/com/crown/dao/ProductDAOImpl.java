@@ -29,7 +29,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public Product getProductById(int id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Product product = (Product)session.load(Product.class,id);
+        Product product = (Product)session.get(Product.class,id);
         return product;
     }
 
