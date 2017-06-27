@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -19,7 +17,6 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    // Retrieve All Products
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<Product>> allProducts() {
         List<Product> products = productService.getAllProducts();
@@ -29,21 +26,27 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Product> addNewProduct(@ModelAttribute Product product) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<?> addNewProduct(@ModelAttribute Product product) {
         Product newProduct = productService.addProduct(product);
-        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        if(newProduct.equals(product)) {
+            return new ResponseEntity<>(Collections.singletonMap("message", "Successfully created."), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(Collections.singletonMap("message", "Already exists."), HttpStatus.CONFLICT);
+        }
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity<Product> deleteProductById(@PathVariable("id") int productId){
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<?> deleteProductById(@PathVariable("id") int productId){
         System.out.println(productId);
         Product product = productService.getProductById(productId);
         if (product == null) {
             System.out.println("Unable to delete. Product with id " + productId + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("message", "Content not found!"), HttpStatus.NOT_FOUND);
         }
         productService.deleteProductById(productId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(Collections.singletonMap("message", "Successfully deleted."), HttpStatus.OK);
     }
 }
